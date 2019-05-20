@@ -1,1 +1,65 @@
+import pandas as pd
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+%matplotlib inline
 
+from sklearn.linear_model import Lasso, Ridge, ElasticNet
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+
+names =[
+    'Team',                                  
+    'PTS', 'REB', 'AST',                    
+    'STL', 'BLK', 'W/L%',                  
+    'PER', 'AGE'
+]
+df = pd.read_csv('NBA team stats.csv', header=None,sep=',',names=names,index_col=0)
+
+df.head()
+
+y = np.array(df['W/L%'])
+x = np.array(df[['PTS','REB','AST','STL','BLK','AGE','PER']])
+
+xtr,xts,ytr,yts = train_test_split(x,y,test_size=0.2
+
+from sklearn import linear_model
+
+regr = linear_model.LinearRegression()
+regr.fit(xtr,ytr)
+yhat = regr.predict(xts)
+
+yhat = regr.predict(xtr)
+rsq_tr = r2_score(ytr, yhat)
+print('R^2 training = %7.4f' % rsq_tr)
+
+
+yhat = regr.predict(xts)
+rsq_ts = r2_score(yts, yhat)
+print('R^2 test     = %7.4f' % rsq_ts)
+
+from sklearn.linear_model import Lasso, Ridge, ElasticNet
+
+regr1 = Ridge(alpha=1)
+regr1.fit(xtr,ytr)
+
+yhat = regr1.predict(xtr)
+rsq_tr = r2_score(ytr, yhat)
+print('R^2 training = %7.4f' % rsq_tr)
+
+
+yhat = regr1.predict(xts)
+rsq_ts = r2_score(yts, yhat)
+print('R^2 test     = %7.4f' % rsq_ts)
+
+regr2 = Lasso()
+regr2.fit(xtr,ytr)
+
+yhat = regr2.predict(xtr)
+rsq_tr = r2_score(ytr, yhat)
+print('R^2 training = %7.4f' % rsq_tr)
+
+
+yhat = regr2.predict(xts)
+rsq_ts = r2_score(yts, yhat)
+print('R^2 test     = %7.4f' % rsq_ts)
